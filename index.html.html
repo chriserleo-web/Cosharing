@@ -1,0 +1,1575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Co-Sharing Workplace - Department Needs Survey</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0b1020;
+    --bg-alt: #111733;
+    --panel: #ffffff;
+    --panel-alt: #f4f6fb;
+    --border: #d9e0ec;
+    --border-strong: #0b1020;
+    --accent-red: #e50914;
+    --accent-red-soft: #ffdfe2;
+    --navy: #0b1020;
+    --navy-soft: #111733;
+    --steel: #5b6678;
+    --text: #0b1020;
+    --text-soft: #5b6678;
+    --shadow: 0 10px 30px rgba(11, 16, 32, 0.12);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    font-family: 'Inter', Arial, sans-serif;
+    background:
+      radial-gradient(circle at top left, rgba(229, 9, 20, 0.12), transparent 45%),
+      radial-gradient(circle at top right, rgba(17,23,51,0.8), transparent 55%),
+      linear-gradient(180deg, #070a18 0%, #0b1020 45%, #111733 100%);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 40px 20px 80px;
+  }
+
+  .top-bar {
+    max-width: 1200px;
+    margin: 0 auto 28px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    color: #fff;
+  }
+
+  .brand-mark {
+    width: 44px;
+    height: 44px;
+    border: 2px solid #fff;
+    display: grid;
+    place-items: center;
+    background: linear-gradient(135deg, var(--accent-red) 0%, #8b0000 100%);
+    letter-spacing: 2px;
+  }
+
+  .brand-mark span {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+  }
+
+  .top-bar .brand-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 26px;
+    letter-spacing: 3px;
+    line-height: 1;
+  }
+
+  .top-bar .brand-sub {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    color: rgba(255,255,255,0.6);
+    margin-top: 4px;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: var(--panel);
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+
+  .hero {
+    background:
+      linear-gradient(135deg, rgba(11,16,32,0.92), rgba(17,23,51,0.88)),
+      repeating-linear-gradient(90deg, rgba(255,255,255,0.04) 0 2px, transparent 2px 44px);
+    color: #fff;
+    padding: 36px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: "";
+    position: absolute;
+    right: -120px;
+    top: -120px;
+    width: 340px;
+    height: 340px;
+    background: radial-gradient(circle, rgba(229,9,20,0.35), transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero .eyebrow {
+    font-size: 11px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--accent-red);
+    margin-bottom: 10px;
+  }
+
+  .hero h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 44px;
+    line-height: 1;
+    margin: 0 0 10px;
+    letter-spacing: 4px;
+  }
+
+  .hero p {
+    font-size: 14px;
+    color: rgba(255,255,255,0.72);
+    max-width: 640px;
+    margin: 0;
+  }
+
+  .content {
+    padding: 32px 40px 40px;
+  }
+
+  .section-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin: 18px 0 14px;
+  }
+
+  .section-label .line {
+    width: 28px;
+    height: 3px;
+    background: var(--accent-red);
+  }
+
+  .section-label h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 24px;
+    letter-spacing: 3px;
+    margin: 0;
+    color: var(--navy);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+  }
+
+  .card {
+    background: var(--panel-alt);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    position: relative;
+    transition: border-color .2s ease, transform .2s ease, box-shadow .2s ease;
+  }
+
+  .card:hover {
+    border-color: var(--navy);
+    box-shadow: 0 8px 24px rgba(11, 16, 32, 0.08);
+    transform: translateY(-2px);
+  }
+
+  .card .card-num {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    color: rgba(11, 16, 32, 0.12);
+    letter-spacing: 2px;
+  }
+
+  .card h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    letter-spacing: 2px;
+    margin: 0 0 4px;
+    color: var(--navy);
+  }
+
+  .card .card-sub {
+    font-size: 12px;
+    color: var(--text-soft);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 14px;
+  }
+
+  .field-row {
+    margin-bottom: 12px;
+  }
+
+  .field-row label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: var(--navy);
+  }
+
+  .checkbox-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom:10px;
+  }
+  .checkbox-item {
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-size:14px;
+  }
+
+  select,
+  input[type="text"],
+  input[type="number"],
+  textarea {
+    width: 100%;
+    padding: 11px 14px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: #fff;
+    color: var(--text);
+    font-family: 'Inter', Arial, sans-serif;
+    font-size: 14px;
+    transition: border-color .2s ease, box-shadow .2s ease;
+  }
+
+  select:focus,
+  input:focus,
+  textarea:focus {
+    outline: none;
+    border-color: var(--navy);
+    box-shadow: 0 0 0 3px rgba(11, 16, 32, 0.12);
+  }
+
+  textarea {
+    min-height: 72px;
+    resize: vertical;
+    margin-top: 4px;
+  }
+
+  .full-width {
+    grid-column: 1 / -1;
+  }
+
+  .button-row {
+    margin-top: 28px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+  }
+
+  button {
+    appearance: none;
+    border: 1px solid var(--navy);
+    background: var(--navy);
+    color: #fff;
+    padding: 12px 20px;
+    font-family: 'Inter', Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background .2s ease, transform .2s ease;
+  }
+
+  button:hover {
+    background: #000;
+    transform: translateY(-1px);
+  }
+
+  button.secondary {
+    background: transparent;
+    color: var(--navy);
+  }
+
+  button.secondary:hover {
+    background: var(--navy);
+    color: #fff;
+  }
+
+  button.danger {
+    background: var(--accent-red);
+    border-color: var(--accent-red);
+  }
+
+  button.danger:hover {
+    background: #990000;
+  }
+
+  .divider {
+    margin: 30px 0 10px;
+    border: none;
+    border-top: 1px solid var(--border);
+  }
+
+  .table-area,
+  .chart-viewer {
+    margin-top: 24px;
+  }
+
+  .panel {
+    background: var(--panel-alt);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+  }
+
+  .panel-header {
+    display:flex;
+    justify-content: space-between;
+    align-items:center;
+    margin-bottom:14px;
+    gap:12px;
+    flex-wrap:wrap;
+  }
+  .panel h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 3px;
+    margin: 0;
+    color: var(--navy);
+  }
+
+  .table-wrap {
+    overflow-x:auto;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    min-width: 720px;
+  }
+
+  th, td {
+    border: 1px solid var(--border);
+    padding: 10px 12px;
+    text-align: left;
+    vertical-align: top;
+  }
+
+  th {
+    background: var(--navy);
+    color: #fff;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-size: 12px;
+  }
+
+  tr:nth-child(even) td {
+    background: #fff;
+  }
+
+  .chart-container {
+    margin-top: 14px;
+    height: 480px;
+    position: relative;
+  }
+
+  .chart-selector-row {
+    display:flex;
+    gap:12px;
+    align-items:center;
+    flex-wrap:wrap;
+  }
+  .chart-selector-row select {
+    max-width:420px;
+  }
+
+  .footer-note {
+    margin-top: 24px;
+    font-size: 12px;
+    color: var(--text-soft);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .edit-mode-indicator {
+    background: var(--accent-red-soft);
+    color: var(--accent-red);
+    border:1px solid var(--accent-red);
+    padding:10px 14px;
+    border-radius:8px;
+    margin-bottom:20px;
+    display:none;
+  }
+
+  @media (max-width: 900px) {
+    .grid { grid-template-columns: 1fr; }
+    .hero { padding: 28px 24px; }
+    .hero h1 { font-size: 34px; }
+    .content { padding: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <div class="brand-mark"><span>CWS</span></div>
+  <div>
+    <div class="brand-title">CO-SHARING WORKPLACE SURVEY</div>
+    <div class="brand-sub">Department Needs Assessment System</div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="hero">
+    <div class="eyebrow">Department Requirements</div>
+    <h1>WORKPLACE NEEDS FEEDBACK</h1>
+    <p>Use this form to capture each department’s workspace requirements, location preferences, facility needs, and operational priorities. All submissions are stored locally for comparison and summary reporting.</p>
+  </div>
+
+  <div class="content">
+    <div class="edit-mode-indicator" id="editIndicator">
+      📝 EDIT MODE: You are updating an existing department entry. Click Update Entry when ready.
+    </div>
+
+    <div class="section-label">
+      <span class="line"></span>
+      <h2>DEPARTMENT PROFILE</h2>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <div class="card-num">01</div>
+        <h3>DEPARTMENT NAME</h3>
+        <div class="card-sub">Core identifier</div>
+        <div class="field-row">
+          <label>Department Name</label>
+          <input type="text" id="deptName" placeholder="e.g. Finance">
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-num">02</div>
+        <h3>MANAGER & HEADCOUNT</h3>
+        <div class="card-sub">Leadership and scale</div>
+        <div class="field-row">
+          <label>Manager Name</label>
+          <input type="text" id="managerName" placeholder="Manager full name">
+        </div>
+        <div class="field-row">
+          <label>Number of Employees</label>
+          <input type="number" id="empCount" min="1" placeholder="Total headcount">
+        </div>
+      </div>
+
+      <div class="card full-width">
+        <div class="card-num">03</div>
+        <h3>WORKING MODEL</h3>
+        <div class="card-sub">Operating pattern</div>
+        <div class="field-row">
+          <label>Working Model</label>
+          <select id="workingModel">
+            <option value="">-- Select --</option>
+            <option>Full time in office</option>
+            <option>Hybrid</option>
+            <option>Working From Home</option>
+          </select>
+        </div>
+        <div class="field-row">
+          <label>Comments</label>
+          <textarea id="workingModelComment" placeholder="Additional notes on working model..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-label">
+      <span class="line"></span>
+      <h2>LOCATION & ACCESSIBILITY</h2>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <div class="card-num">04</div>
+        <h3>PREFERRED LOCATION</h3>
+        <div class="card-sub">Geographic priority</div>
+        <div class="field-row">
+          <label>Preferred Location</label>
+          <select id="preferredLocation">
+            <option value="">-- Select --</option>
+            <option>North</option>
+            <option>South</option>
+            <option>East</option>
+            <option>West</option>
+            <option>Central</option>
+          </select>
+        </div>
+        <div class="field-row">
+          <label>Comments</label>
+          <textarea id="preferredLocationComment" placeholder="Preferred location comments..."></textarea>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-num">05</div>
+        <h3>TRANSPORT & PARKING</h3>
+        <div class="card-sub">Connectivity needs</div>
+        <div class="field-row">
+          <label>Public Transport Access</label>
+          <select id="publicTransport">
+            <option value="">-- Select --</option>
+            <option>High</option>
+            <option>Medium</option>
+            <option>Low</option>
+          </select>
+        </div>
+        <div class="field-row">
+          <label>Comments</label>
+          <textarea id="publicTransportComment" placeholder="Public transport comments..."></textarea>
+        </div>
+        <div class="field-row">
+          <label>Parking Availability</label>
+          <select id="parking">
+            <option value="">-- Select --</option>
+            <option>Required</option>
+            <option>Nice to have</option>
+            <option>Not required</option>
+          </select>
+        </div>
+        <div class="field-row">
+          <label>Comments</label>
+          <textarea id="parkingComment" placeholder="Parking comments..."></textarea>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-num">06</div>
+        <h3>CAFÉS / RESTAURANTS NEARBY</h3>
+        <div class="card-sub">Walking distance</div>
+        <div class="field-row">
+          <label>Cafés / restaurants nearby (Walking Distance)</label>
+          <select id="cafeWalkDistance">
+            <option value="">-- Select --</option>
+            <option>5 to 10mins</option>
+            <option>10 mins to 15mins</option>
+            <option>15 mins above</option>
+          </select>
+        </div>
+        <div class="field-row">
+          <label>Comments</label>
+          <textarea id="cafeWalkDistanceComment" placeholder="Café / restaurant walking distance comments..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-label">
+      <span class="line"></span>
+      <h2>SPACE & LAYOUT</h2>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <div class="card-num">07</div>
+        <h3>DESK & SEATING</h3>
+        <div class="card-sub">Workspace standard</div>
+        <div class="field-row">
+          <label>Desk Requirement</label>
+          <select id="deskRequirement">
+            <option value="">-- Select --</option>
+            <option>Hot-Desking</option>
+            <option>Dedicated Desk</option>
+          </select>
+        </div>
+        <div class="field-row">
+          <label>Comments</label>
+          <textarea id="deskRequirementComment" placeholder="Notes for desk requirement..."></textarea>
+        </div>
+        <div class="field-row">
+          <label>Desk Dimension</label>
+          <select id="deskDimension">
+            <option value="">-- Select --</option>
+            <option>1.2m x 0.6m</option>
+            <option>1.5m x 0.6m</option>
+            <option>1.8m onwards</option>
+          </select>
+        </div>
+        <div class="field-row">
+          <label>Comments</label>
+          <textarea id="deskDimensionComment" placeholder="Desk dimension comments..."></textarea>
+        </div>
+        <div class="field-row">
+          <label>Ergonomic Chair</label>
+          <select id="ergonomicChair">
+            <option value="">-- Select --</option>
+            <option>Required</option>
+            <option>Nice to have</option>
+            <option>Not required</option>
+          </select>
+        </div>
+        <div class="field-row">
+          <label>Comments</label>
+          <textarea id="ergonomicChairComment" placeholder="Ergonomic chair comments..."></textarea>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-num">08</div>
+        <h3>FOCUS SPACE</h3>
+        <div class="card-sub">Quiet workspace standard</div>
+        <div class="field-row">
+          <label>Quiet / Focus Room</label>
+          <select id="quietRoom">
+            <option value="">-- Select --</option>
+            <option>Required</option>
+            <option>Nice to have</option>
+            <option>Not required</option>
+          </select>
+        </div>
+        <div class="field-row">
+          <label>Comments</label>
+          <textarea id="quietRoomComment" placeholder="Quiet room comments..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-label">
+      <span class="line"></span>
+      <h2>FACILITIES & AMENITIES</h2>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <div class="card-num">09</div>
+        <h3>CORE FACILITIES</h3>
+        <div class="card-sub">Infrastructure needs</div>
+        <div class="field-row">
+          <label>High Speed Internet</label>
+          <select id="internet">
+            <option value="">-- Select --</option>
+            <option>Required</option>
+            <option>Nice to have</option>
+            <option>Not required</option>
+          </select>
+        </div>
+        <div class="field-row">
+          <label>Comments</label>
+          <textarea id="internetComment" placeholder="Internet comments..."></textarea>
+        </div>
+        <div class="field-row">
+          <label>Pantry / Kitchenette</label>
+          <select id="pantry">
+            <option value="">-- Select --</option>
+            <option>Required</option>
+            <option>Nice to have</option>
+            <option>Not required</option>
+          </select>
+        </div>
+        <div class="field-row">
+          <label>Comments</label>
+          <textarea id="pantryComment" placeholder="Pantry comments..."></textarea>
+        </div>
+        <div class="field-row">
+          <label>Printing / Scanning Station</label>
+          <select id="printScan">
+            <option value="">-- Select --</option>
+            <option>Required</option>
+            <option>Nice to have</option>
+            <option>Not required</option>
+          </select>
+        </div>
+        <div class="field-row">
+          <label>Comments</label>
+          <textarea id="printScanComment" placeholder="Print scan comments..."></textarea>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-num">10</div>
+        <h3>MEETING ROOMS & AV SERVICES</h3>
+        <div class="card-sub">Collaboration & operational support</div>
+        <div class="field-row">
+          <label>Meeting Room Types (Multi-select)</label>
+          <div class="checkbox-group">
+            <div class="checkbox-item">
+              <input type="checkbox" id="mtgPhoneBooth" value="Individual phone booth">
+              <label for="mtgPhoneBooth">Individual phone booth</label>
+            </div>
+            <div class="checkbox-item">
+              <input type="checkbox" id="mtg2pax" value="2-pax small meeting room">
+              <label for="mtg2pax">2-pax small meeting room</label>
+            </div>
+            <div class="checkbox-item">
+              <input type="checkbox" id="mtg4pax" value="4-pax meeting room">
+              <label for="mtg4pax">4-pax meeting room</label>
+            </div>
+            <div class="checkbox-item">
+              <input type="checkbox" id="mtg8pax" value="8+pax larger meeting room">
+              <label for="mtg8pax">8+pax larger meeting room</label>
+            </div>
+          </div>
+          <label>Comments</label>
+          <textarea id="meetingRoomsComment" placeholder="Notes on meeting room requirements..."></textarea>
+        </div>
+        <div class="field-row">
+          <label>Parcel Receiving Service - Able to support Corporate Address</label>
+          <select id="parcelService">
+            <option value="">-- Select --</option>
+            <option>Required</option>
+            <option>Nice to have</option>
+            <option>Not required</option>
+          </select>
+        </div>
+        <div class="field-row">
+          <label>Comments</label>
+          <textarea id="parcelServiceComment" placeholder="Parcel service comments..."></textarea>
+        </div>
+        <div class="field-row">
+          <label>Screen / projector / video conference systems in meeting rooms</label>
+          <select id="avSystem">
+            <option value="">-- Select --</option>
+            <option>Required</option>
+            <option>Nice to have</option>
+            <option>Not required</option>
+          </select>
+        </div>
+        <div class="field-row">
+          <label>Comments</label>
+          <textarea id="avSystemComment" placeholder="AV system comments..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="button-row">
+      <button id="btnSave" onclick="saveRecord()">Save Department Entry</button>
+      <button id="btnUpdate" onclick="updateRecord()" style="display:none;">Update Entry</button>
+      <button class="secondary" onclick="resetForm()">Cancel / Clear Form</button>
+      <button class="secondary" onclick="exportCSV()">Export CSV</button>
+      <button class="secondary" onclick="document.getElementById('importFile').click()">Import CSV</button>
+      <input type="file" id="importFile" accept=".csv" style="display:none" onchange="importCSV(event)">
+      <button class="secondary" onclick="wipeAll()">Clear All Saved Data</button>
+    </div>
+
+    <hr class="divider" />
+
+    <div class="table-area">
+      <div class="panel">
+        <div class="panel-header">
+          <h3>SUMMARY TABLE</h3>
+          <button class="secondary" id="toggleFullTable" onclick="toggleFullView()">Show Full Detailed View</button>
+        </div>
+        <div class="table-wrap">
+          <table id="summaryTable">
+            <thead id="tableHeaderShort">
+              <tr>
+                <th>Dept</th>
+                <th>Headcount</th>
+                <th>Working Model</th>
+                <th>Preferred Location</th>
+                <th>Café Walk</th>
+                <th>Desk Type</th>
+                <th>Desk Size</th>
+                <th>Meeting Rooms</th>
+                <th>Quiet Room</th>
+                <th>Internet</th>
+                <th>AV</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <thead id="tableHeaderFull" style="display:none;">
+              <tr>
+                <th>Dept</th>
+                <th>Manager</th>
+                <th>Headcount</th>
+                <th>Working Model</th>
+                <th>Working Model Comment</th>
+                <th>Preferred Location</th>
+                <th>Preferred Location Comment</th>
+                <th>Public Transport</th>
+                <th>Public Transport Comment</th>
+                <th>Parking</th>
+                <th>Parking Comment</th>
+                <th>Café Walk</th>
+                <th>Café Walk Comment</th>
+                <th>Desk Requirement</th>
+                <th>Desk Requirement Comment</th>
+                <th>Desk Dimension</th>
+                <th>Desk Dimension Comment</th>
+                <th>Ergonomic Chair</th>
+                <th>Ergonomic Chair Comment</th>
+                <th>Meeting Room Types</th>
+                <th>Meeting Room Comment</th>
+                <th>Quiet Room</th>
+                <th>Quiet Room Comment</th>
+                <th>Internet</th>
+                <th>Internet Comment</th>
+                <th>Pantry</th>
+                <th>Pantry Comment</th>
+                <th>Print Scan</th>
+                <th>Print Scan Comment</th>
+                <th>Parcel Service</th>
+                <th>Parcel Service Comment</th>
+                <th>AV System</th>
+                <th>AV System Comment</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="chart-viewer">
+      <div class="panel">
+        <div class="panel-header chart-selector-row">
+          <h3>CHART VIEW</h3>
+          <select id="chartSelector">
+            <option value="radar" selected>Facility Requirement Radar (Department Comparison)</option>
+            <option value="location">Preferred Location Breakdown</option>
+            <option value="priorityDept">Facility Priority Aggregate (Dept Count)</option>
+            <option value="meeting">Meeting Room Type Demand</option>
+            <option value="workModel">Working Model Distribution</option>
+            <option value="desk">Desk Dimension Preference</option>
+            <option value="deskType">Desk Requirement (Hot-desking / Dedicated)</option>
+            <option value="parking">Parking Requirement Split</option>
+            <option value="transport">Public Transport Importance</option>
+            <option value="priorityWeighted">Facility Priority (Weighted by Headcount)</option>
+            <option value="headcount">Headcount per Department</option>
+            <option value="cafeWalk">Café / Restaurant Walking Distance</option>
+          </select>
+        </div>
+        <div class="chart-container">
+          <canvas id="activeChartCanvas"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-note">
+      All data is stored locally in this browser. Clear data only when you intend to reset the survey.
+    </div>
+
+  </div>
+</div>
+
+<script>
+let records = JSON.parse(localStorage.getItem("workplaceSurveyOriginal")) || [];
+let activeChart = null;
+let showFullTable = false;
+let editIndex = null;
+
+const priorityFields = ["parking","ergonomicChair","quietRoom","internet","pantry","printScan","parcelService","avSystem"];
+const radarLabels = ["Parking","Ergonomic Chair","Quiet Room","High Speed Internet","Pantry","Print / Scan","Parcel Service","AV System"];
+
+function escapeCsvCell(text) {
+  if (text === null || text === undefined) text = "";
+  text = String(text);
+  if (text.includes('"') || text.includes(',') || text.includes('\n')) {
+    return '"' + text.replaceAll('"', '""') + '"';
+  }
+  return text;
+}
+
+function scoreValue(text){
+  if(text === "Required") return 3;
+  if(text === "Nice to have") return 2;
+  return 1;
+}
+
+function getSelectedMeetingRooms(){
+  const selected = [];
+  if(document.getElementById("mtgPhoneBooth").checked) selected.push(document.getElementById("mtgPhoneBooth").value);
+  if(document.getElementById("mtg2pax").checked) selected.push(document.getElementById("mtg2pax").value);
+  if(document.getElementById("mtg4pax").checked) selected.push(document.getElementById("mtg4pax").value);
+  if(document.getElementById("mtg8pax").checked) selected.push(document.getElementById("mtg8pax").value);
+  return selected.join("; ");
+}
+
+function setMeetingRoomChecks(valueString){
+  const vals = valueString.split("; ").map(x=>x.trim());
+  document.getElementById("mtgPhoneBooth").checked = vals.includes("Individual phone booth");
+  document.getElementById("mtg2pax").checked = vals.includes("2-pax small meeting room");
+  document.getElementById("mtg4pax").checked = vals.includes("4-pax meeting room");
+  document.getElementById("mtg8pax").checked = vals.includes("8+pax larger meeting room");
+}
+
+function toggleFullView(){
+  showFullTable = !showFullTable;
+  const btn = document.getElementById("toggleFullTable");
+  const hShort = document.getElementById("tableHeaderShort");
+  const hFull = document.getElementById("tableHeaderFull");
+  if(showFullTable){
+    hShort.style.display = "none";
+    hFull.style.display = "table-header-group";
+    btn.innerText = "Show Compact Summary";
+  }else{
+    hShort.style.display = "table-header-group";
+    hFull.style.display = "none";
+    btn.innerText = "Show Full Detailed View";
+  }
+  refreshTable();
+}
+
+function enterEditMode(index){
+  editIndex = index;
+  const r = records[index];
+  document.getElementById("deptName").value = r.deptName;
+  document.getElementById("managerName").value = r.managerName;
+  document.getElementById("empCount").value = r.empCount;
+  document.getElementById("workingModel").value = r.workingModel;
+  document.getElementById("workingModelComment").value = r.workingModelComment;
+
+  document.getElementById("preferredLocation").value = r.preferredLocation;
+  document.getElementById("preferredLocationComment").value = r.preferredLocationComment;
+  document.getElementById("publicTransport").value = r.publicTransport;
+  document.getElementById("publicTransportComment").value = r.publicTransportComment;
+  document.getElementById("parking").value = r.parking;
+  document.getElementById("parkingComment").value = r.parkingComment;
+
+  document.getElementById("cafeWalkDistance").value = r.cafeWalkDistance || "";
+  document.getElementById("cafeWalkDistanceComment").value = r.cafeWalkDistanceComment || "";
+
+  document.getElementById("deskRequirement").value = r.deskRequirement;
+  document.getElementById("deskRequirementComment").value = r.deskRequirementComment;
+  document.getElementById("deskDimension").value = r.deskDimension;
+  document.getElementById("deskDimensionComment").value = r.deskDimensionComment;
+  document.getElementById("ergonomicChair").value = r.ergonomicChair;
+  document.getElementById("ergonomicChairComment").value = r.ergonomicChairComment;
+  setMeetingRoomChecks(r.meetingRooms || "");
+  document.getElementById("meetingRoomsComment").value = r.meetingRoomsComment;
+  document.getElementById("quietRoom").value = r.quietRoom;
+  document.getElementById("quietRoomComment").value = r.quietRoomComment;
+
+  document.getElementById("internet").value = r.internet;
+  document.getElementById("internetComment").value = r.internetComment;
+  document.getElementById("pantry").value = r.pantry;
+  document.getElementById("pantryComment").value = r.pantryComment;
+  document.getElementById("printScan").value = r.printScan;
+  document.getElementById("printScanComment").value = r.printScanComment;
+  document.getElementById("parcelService").value = r.parcelService;
+  document.getElementById("parcelServiceComment").value = r.parcelServiceComment;
+  document.getElementById("avSystem").value = r.avSystem;
+  document.getElementById("avSystemComment").value = r.avSystemComment;
+
+  document.getElementById("editIndicator").style.display="block";
+  document.getElementById("btnSave").style.display="none";
+  document.getElementById("btnUpdate").style.display="inline-block";
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+function resetForm(){
+  editIndex = null;
+  document.getElementById("deptName").value = "";
+  document.getElementById("managerName").value = "";
+  document.getElementById("empCount").value = "";
+  document.getElementById("workingModel").value = "";
+  document.getElementById("workingModelComment").value = "";
+
+  document.getElementById("preferredLocation").value = "";
+  document.getElementById("preferredLocationComment").value = "";
+  document.getElementById("publicTransport").value = "";
+  document.getElementById("publicTransportComment").value = "";
+  document.getElementById("parking").value = "";
+  document.getElementById("parkingComment").value = "";
+
+  document.getElementById("cafeWalkDistance").value = "";
+  document.getElementById("cafeWalkDistanceComment").value = "";
+
+  document.getElementById("deskRequirement").value = "";
+  document.getElementById("deskRequirementComment").value = "";
+  document.getElementById("deskDimension").value = "";
+  document.getElementById("deskDimensionComment").value = "";
+  document.getElementById("ergonomicChair").value = "";
+  document.getElementById("ergonomicChairComment").value = "";
+  document.getElementById("mtgPhoneBooth").checked = false;
+  document.getElementById("mtg2pax").checked = false;
+  document.getElementById("mtg4pax").checked = false;
+  document.getElementById("mtg8pax").checked = false;
+  document.getElementById("meetingRoomsComment").value = "";
+  document.getElementById("quietRoom").value = "";
+  document.getElementById("quietRoomComment").value = "";
+
+  document.getElementById("internet").value = "";
+  document.getElementById("internetComment").value = "";
+  document.getElementById("pantry").value = "";
+  document.getElementById("pantryComment").value = "";
+  document.getElementById("printScan").value = "";
+  document.getElementById("printScanComment").value = "";
+  document.getElementById("parcelService").value = "";
+  document.getElementById("parcelServiceComment").value = "";
+  document.getElementById("avSystem").value = "";
+  document.getElementById("avSystemComment").value = "";
+
+  document.getElementById("editIndicator").style.display="none";
+  document.getElementById("btnSave").style.display="inline-block";
+  document.getElementById("btnUpdate").style.display="none";
+}
+
+function buildRecordFromForm(){
+  return {
+    deptName: document.getElementById("deptName").value.trim(),
+    managerName: document.getElementById("managerName").value.trim(),
+    empCount: Number(document.getElementById("empCount").value) || 0,
+    workingModel: document.getElementById("workingModel").value,
+    workingModelComment: document.getElementById("workingModelComment").value.trim(),
+
+    preferredLocation: document.getElementById("preferredLocation").value,
+    preferredLocationComment: document.getElementById("preferredLocationComment").value.trim(),
+    publicTransport: document.getElementById("publicTransport").value,
+    publicTransportComment: document.getElementById("publicTransportComment").value.trim(),
+    parking: document.getElementById("parking").value,
+    parkingComment: document.getElementById("parkingComment").value.trim(),
+
+    cafeWalkDistance: document.getElementById("cafeWalkDistance").value,
+    cafeWalkDistanceComment: document.getElementById("cafeWalkDistanceComment").value.trim(),
+
+    deskRequirement: document.getElementById("deskRequirement").value,
+    deskRequirementComment: document.getElementById("deskRequirementComment").value.trim(),
+    deskDimension: document.getElementById("deskDimension").value,
+    deskDimensionComment: document.getElementById("deskDimensionComment").value.trim(),
+    ergonomicChair: document.getElementById("ergonomicChair").value,
+    ergonomicChairComment: document.getElementById("ergonomicChairComment").value.trim(),
+    meetingRooms: getSelectedMeetingRooms(),
+    meetingRoomsComment: document.getElementById("meetingRoomsComment").value.trim(),
+    quietRoom: document.getElementById("quietRoom").value,
+    quietRoomComment: document.getElementById("quietRoomComment").value.trim(),
+
+    internet: document.getElementById("internet").value,
+    internetComment: document.getElementById("internetComment").value.trim(),
+    pantry: document.getElementById("pantry").value,
+    pantryComment: document.getElementById("pantryComment").value.trim(),
+    printScan: document.getElementById("printScan").value,
+    printScanComment: document.getElementById("printScanComment").value.trim(),
+    parcelService: document.getElementById("parcelService").value,
+    parcelServiceComment: document.getElementById("parcelServiceComment").value.trim(),
+    avSystem: document.getElementById("avSystem").value,
+    avSystemComment: document.getElementById("avSystemComment").value.trim(),
+  };
+}
+
+function saveRecord() {
+  const rec = buildRecordFromForm();
+  if (!rec.deptName) {
+    alert("Fill Department Name");
+    return;
+  }
+  records.push(rec);
+  localStorage.setItem("workplaceSurveyOriginal", JSON.stringify(records));
+  refreshTable();
+  drawActiveChart();
+  resetForm();
+  alert("Saved new department entry");
+}
+
+function updateRecord(){
+  if(editIndex === null) return;
+  const rec = buildRecordFromForm();
+  if (!rec.deptName) {
+    alert("Fill Department Name");
+    return;
+  }
+  records[editIndex] = rec;
+  localStorage.setItem("workplaceSurveyOriginal", JSON.stringify(records));
+  refreshTable();
+  drawActiveChart();
+  resetForm();
+  alert("Entry updated");
+}
+
+function deleteRecord(index){
+  if(confirm("Delete this department entry?")){
+    records.splice(index,1);
+    localStorage.setItem("workplaceSurveyOriginal", JSON.stringify(records));
+    refreshTable();
+    drawActiveChart();
+    if(editIndex === index) resetForm();
+  }
+}
+
+function refreshTable() {
+  const tb = document.querySelector("#summaryTable tbody");
+  tb.innerHTML = "";
+
+  records.forEach((r, idx) => {
+    const tr = document.createElement("tr");
+    const actionCell = `<td>
+      <button class="secondary" style="padding:6px 8px;font-size:12px" onclick="enterEditMode(${idx})">Edit</button>
+      <button class="danger" style="padding:6px 8px;font-size:12px" onclick="deleteRecord(${idx})">Delete</button>
+    </td>`;
+    if(showFullTable){
+      tr.innerHTML = `
+        <td>${r.deptName}</td>
+        <td>${r.managerName}</td>
+        <td>${r.empCount}</td>
+        <td>${r.workingModel}</td>
+        <td>${r.workingModelComment}</td>
+        <td>${r.preferredLocation}</td>
+        <td>${r.preferredLocationComment}</td>
+        <td>${r.publicTransport}</td>
+        <td>${r.publicTransportComment}</td>
+        <td>${r.parking}</td>
+        <td>${r.parkingComment}</td>
+        <td>${r.cafeWalkDistance || ""}</td>
+        <td>${r.cafeWalkDistanceComment || ""}</td>
+        <td>${r.deskRequirement}</td>
+        <td>${r.deskRequirementComment}</td>
+        <td>${r.deskDimension}</td>
+        <td>${r.deskDimensionComment}</td>
+        <td>${r.ergonomicChair}</td>
+        <td>${r.ergonomicChairComment}</td>
+        <td>${r.meetingRooms}</td>
+        <td>${r.meetingRoomsComment}</td>
+        <td>${r.quietRoom}</td>
+        <td>${r.quietRoomComment}</td>
+        <td>${r.internet}</td>
+        <td>${r.internetComment}</td>
+        <td>${r.pantry}</td>
+        <td>${r.pantryComment}</td>
+        <td>${r.printScan}</td>
+        <td>${r.printScanComment}</td>
+        <td>${r.parcelService}</td>
+        <td>${r.parcelServiceComment}</td>
+        <td>${r.avSystem}</td>
+        <td>${r.avSystemComment}</td>
+        ${actionCell}
+      `;
+    }else{
+      tr.innerHTML = `
+        <td>${r.deptName}</td>
+        <td>${r.empCount}</td>
+        <td>${r.workingModel}</td>
+        <td>${r.preferredLocation}</td>
+        <td>${r.cafeWalkDistance || ""}</td>
+        <td>${r.deskRequirement}</td>
+        <td>${r.deskDimension}</td>
+        <td>${r.meetingRooms}</td>
+        <td>${r.quietRoom}</td>
+        <td>${r.internet}</td>
+        <td>${r.avSystem}</td>
+        ${actionCell}
+      `;
+    }
+    tb.appendChild(tr);
+  });
+}
+
+function destroyChart(){
+  if(activeChart){
+    activeChart.destroy();
+    activeChart = null;
+  }
+}
+
+function drawActiveChart(){
+  destroyChart();
+  const selectedType = document.getElementById("chartSelector").value;
+  const ctx = document.getElementById("activeChartCanvas").getContext("2d");
+
+  if(selectedType === "radar"){
+    const colorPalette = [
+      {border:'#0b1020', bg:'rgba(11,16,32,0.12)'},
+      {border:'#e50914', bg:'rgba(229,9,20,0.12)'},
+      {border:'#f2b138', bg:'rgba(242,177,56,0.12)'},
+      {border:'#36a2eb', bg:'rgba(54,162,235,0.12)'},
+      {border:'#4bc0c0', bg:'rgba(75,192,192,0.12)'},
+      {border:'#9966ff', bg:'rgba(153,102,255,0.12)'},
+      {border:'#ff9f40', bg:'rgba(255,159,64,0.12)'},
+      {border:'#ff6384', bg:'rgba(255,99,132,0.12)'},
+    ];
+    const datasets = records.map((r, idx)=>{
+      const col = colorPalette[idx % colorPalette.length];
+      const dataPoints = priorityFields.map(f=>scoreValue(r[f]));
+      return {
+        label: r.deptName,
+        data: dataPoints,
+        borderColor: col.border,
+        backgroundColor: col.bg,
+        pointBackgroundColor: col.border,
+        fill:true
+      }
+    });
+    activeChart = new Chart(ctx,{
+      type:"radar",
+      data:{labels:radarLabels, datasets},
+      options:{
+        responsive:true,
+        maintainAspectRatio:false,
+        scales:{
+          r:{min:0, max:3, ticks:{stepSize:1, display:false}}
+        }
+      }
+    })
+  }else if(selectedType === "location"){
+    const locCount = { North:0, South:0, East:0, West:0, Central:0 };
+    records.forEach(r=>{ if(locCount[r.preferredLocation]!==undefined) locCount[r.preferredLocation]++; });
+    activeChart = new Chart(ctx,{
+      type:"bar",
+      data:{
+        labels:Object.keys(locCount),
+        datasets:[{label:"Depts", data:Object.values(locCount), backgroundColor:"#0b1020", hoverBackgroundColor:"#e50914"}]
+      },
+      options:{responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{y:{beginAtZero:true, ticks:{stepSize:1}}}}
+    });
+  }else if(selectedType === "priorityDept"){
+    const priority = {Required:0, Nice:0, NotRequired:0};
+    records.forEach(r=>{
+      priorityFields.forEach(f=>{
+        const v = r[f];
+        if(v==="Required") priority.Required++;
+        if(v==="Nice to have") priority.Nice++;
+        if(v==="Not required") priority.NotRequired++;
+      })
+    });
+    activeChart = new Chart(ctx,{
+      type:"bar",
+      data:{
+        labels:["Required","Nice to have","Not required"],
+        datasets:[{label:"Total votes", data:[priority.Required, priority.Nice, priority.NotRequired], backgroundColor:["#e50914","#f2b138","#777"]}]
+      },
+      options:{responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{y:{beginAtZero:true}}}
+    });
+  }else if(selectedType === "meeting"){
+    const mtgTypes = {"Individual phone booth":0,"2-pax small meeting room":0,"4-pax meeting room":0,"8+pax larger meeting room":0};
+    records.forEach(r=>{
+      const items = r.meetingRooms.split("; ").map(x=>x.trim());
+      items.forEach(it=>{ if(mtgTypes[it]!==undefined) mtgTypes[it]++; })
+    })
+    activeChart = new Chart(ctx,{
+      type:"pie",
+      data:{
+        labels:Object.keys(mtgTypes),
+        datasets:[{data:Object.values(mtgTypes), backgroundColor:["#0b1020","#e50914","#f2b138","#444"]}]
+      },
+      options:{responsive:true, maintainAspectRatio:false}
+    });
+  }else if(selectedType === "workModel"){
+    const wm = {"Full time in office":0,"Hybrid":0,"Working From Home":0};
+    records.forEach(r=>{ if(wm[r.workingModel]!==undefined) wm[r.workingModel]++; })
+    activeChart = new Chart(ctx,{
+      type:"pie",
+      data:{
+        labels:Object.keys(wm),
+        datasets:[{data:Object.values(wm), backgroundColor:["#0b1020","#e50914","#f2b138"]}]
+      },
+      options:{responsive:true, maintainAspectRatio:false}
+    });
+  }else if(selectedType === "desk"){
+    const deskCount = {"1.2m x 0.6m":0,"1.5m x 0.6m":0,"1.8m onwards":0};
+    records.forEach(r=>{ if(deskCount[r.deskDimension]!==undefined) deskCount[r.deskDimension]++; })
+    activeChart = new Chart(ctx,{
+      type:"bar",
+      data:{
+        labels:Object.keys(deskCount),
+        datasets:[{label:"Depts", data:Object.values(deskCount), backgroundColor:"#0b1020", hoverBackgroundColor:"#e50914"}]
+      },
+      options:{responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{y:{beginAtZero:true, ticks:{stepSize:1}}}}
+    });
+  }else if(selectedType === "deskType"){
+    const deskTypeCount = {"Hot-Desking":0,"Dedicated Desk":0};
+    records.forEach(r=>{ if(deskTypeCount[r.deskRequirement]!==undefined) deskTypeCount[r.deskRequirement]++; })
+    activeChart = new Chart(ctx,{
+      type:"doughnut",
+      data:{
+        labels:Object.keys(deskTypeCount),
+        datasets:[{data:Object.values(deskTypeCount), backgroundColor:["#0b1020","#e50914"]}]
+      },
+      options:{responsive:true, maintainAspectRatio:false}
+    });
+  }else if(selectedType === "parking"){
+    const parkCount = {"Required":0,"Nice to have":0,"Not required":0};
+    records.forEach(r=>{ if(parkCount[r.parking]!==undefined) parkCount[r.parking]++; })
+    activeChart = new Chart(ctx,{
+      type:"doughnut",
+      data:{
+        labels:Object.keys(parkCount),
+        datasets:[{data:Object.values(parkCount), backgroundColor:["#e50914","#f2b138","#777"]}]
+      },
+      options:{responsive:true, maintainAspectRatio:false}
+    });
+  }else if(selectedType === "transport"){
+    const transCount = {"High":0,"Medium":0,"Low":0};
+    records.forEach(r=>{ if(transCount[r.publicTransport]!==undefined) transCount[r.publicTransport]++; })
+    activeChart = new Chart(ctx,{
+      type:"bar",
+      data:{
+        labels:Object.keys(transCount),
+        datasets:[{label:"Depts", data:Object.values(transCount), backgroundColor:"#0b1020", hoverBackgroundColor:"#e50914"}]
+      },
+      options:{
+        indexAxis:"y",
+        responsive:true,
+        maintainAspectRatio:false,
+        plugins:{legend:{display:false}},
+        scales:{x:{beginAtZero:true, ticks:{stepSize:1}}}
+      }
+    });
+  }else if(selectedType === "priorityWeighted"){
+    const weighted = {Required:0, Nice:0, NotRequired:0};
+    records.forEach(r=>{
+      const hc = Number(r.empCount) || 0;
+      priorityFields.forEach(f=>{
+        const v = r[f];
+        if(v==="Required") weighted.Required += hc;
+        if(v==="Nice to have") weighted.Nice += hc;
+        if(v==="Not required") weighted.NotRequired += hc;
+      })
+    });
+    activeChart = new Chart(ctx,{
+      type:"bar",
+      data:{
+        labels:["Required","Nice to have","Not required"],
+        datasets:[{label:"Weighted by staff count", data:[weighted.Required, weighted.Nice, weighted.NotRequired], backgroundColor:["#e50914","#f2b138","#777"]}]
+      },
+      options:{responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{y:{beginAtZero:true}}}
+    });
+  }else if(selectedType === "headcount"){
+    const deptNames = records.map(r=>r.deptName);
+    const deptHc = records.map(r=>Number(r.empCount)||0);
+    activeChart = new Chart(ctx,{
+      type:"bar",
+      data:{
+        labels:deptNames,
+        datasets:[{label:"Headcount", data:deptHc, backgroundColor:"#0b1020", hoverBackgroundColor:"#e50914"}]
+      },
+      options:{
+        indexAxis:"y",
+        responsive:true,
+        maintainAspectRatio:false,
+        plugins:{legend:{display:false}},
+        scales:{x:{beginAtZero:true}}
+      }
+    });
+  }else if(selectedType === "cafeWalk"){
+    const cafeCount = {"5 to 10mins":0,"10 mins to 15mins":0,"15 mins above":0};
+    records.forEach(r=>{ if(cafeCount[r.cafeWalkDistance]!==undefined) cafeCount[r.cafeWalkDistance]++; });
+    activeChart = new Chart(ctx,{
+      type:"pie",
+      data:{
+        labels:Object.keys(cafeCount),
+        datasets:[{data:Object.values(cafeCount), backgroundColor:["#0b1020","#e50914","#f2b138"]}]
+      },
+      options:{responsive:true, maintainAspectRatio:false}
+    });
+  }
+}
+
+function exportCSV() {
+  if (records.length === 0) {
+    alert("No data");
+    return;
+  }
+
+  const headers = [
+    "Dept", "Manager", "Headcount", "WorkingModel", "WorkingModelComment",
+    "PreferredLocation", "PreferredLocationComment",
+    "PublicTransport", "PublicTransportComment",
+    "Parking", "ParkingComment",
+    "CafeWalkDistance", "CafeWalkDistanceComment",
+    "DeskRequirement", "DeskRequirementComment",
+    "DeskDimension", "DeskDimensionComment",
+    "ErgonomicChair", "ErgonomicChairComment",
+    "MeetingRoomTypes", "MeetingRoomComment",
+    "QuietRoom", "QuietRoomComment",
+    "Internet", "InternetComment",
+    "Pantry", "PantryComment",
+    "PrintScan", "PrintScanComment",
+    "ParcelService", "ParcelServiceComment",
+    "AVSystem", "AVSystemComment"
+  ];
+
+  let csv = headers.join(",") + "\n";
+
+  records.forEach(r => {
+    const row = [
+      escapeCsvCell(r.deptName),
+      escapeCsvCell(r.managerName),
+      escapeCsvCell(r.empCount),
+      escapeCsvCell(r.workingModel),
+      escapeCsvCell(r.workingModelComment),
+      escapeCsvCell(r.preferredLocation),
+      escapeCsvCell(r.preferredLocationComment),
+      escapeCsvCell(r.publicTransport),
+      escapeCsvCell(r.publicTransportComment),
+      escapeCsvCell(r.parking),
+      escapeCsvCell(r.parkingComment),
+      escapeCsvCell(r.cafeWalkDistance || ""),
+      escapeCsvCell(r.cafeWalkDistanceComment || ""),
+      escapeCsvCell(r.deskRequirement),
+      escapeCsvCell(r.deskRequirementComment),
+      escapeCsvCell(r.deskDimension),
+      escapeCsvCell(r.deskDimensionComment),
+      escapeCsvCell(r.ergonomicChair),
+      escapeCsvCell(r.ergonomicChairComment),
+      escapeCsvCell(r.meetingRooms),
+      escapeCsvCell(r.meetingRoomsComment),
+      escapeCsvCell(r.quietRoom),
+      escapeCsvCell(r.quietRoomComment),
+      escapeCsvCell(r.internet),
+      escapeCsvCell(r.internetComment),
+      escapeCsvCell(r.pantry),
+      escapeCsvCell(r.pantryComment),
+      escapeCsvCell(r.printScan),
+      escapeCsvCell(r.printScanComment),
+      escapeCsvCell(r.parcelService),
+      escapeCsvCell(r.parcelServiceComment),
+      escapeCsvCell(r.avSystem),
+      escapeCsvCell(r.avSystemComment)
+    ];
+    csv += row.join(",") + "\n";
+  });
+
+  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "WorkplaceNeeds.csv";
+  a.click();
+}
+
+function parseCsvRow(row) {
+  const result = [];
+  let current = "";
+  let inQuotes = false;
+
+  for (let i = 0; i < row.length; i++) {
+    const char = row[i];
+
+    if (char === '"') {
+      if (inQuotes && row[i + 1] === '"') {
+        current += '"';
+        i++;
+      } else {
+        inQuotes = !inQuotes;
+      }
+    } else if (char === ',' && !inQuotes) {
+      result.push(current);
+      current = "";
+    } else {
+      current += char;
+    }
+  }
+
+  result.push(current);
+  return result;
+}
+
+async function importCSV(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const text = await file.text();
+  const lines = text.split(/\r?\n/).filter(line => line.trim().length > 0);
+
+  if (lines.length < 2) {
+    alert("CSV file is empty or invalid.");
+    event.target.value = "";
+    return;
+  }
+
+  const headers = parseCsvRow(lines[0]);
+  const expectedHeaders = [
+    "Dept","Manager","Headcount","WorkingModel","WorkingModelComment",
+    "PreferredLocation","PreferredLocationComment","PublicTransport","PublicTransportComment",
+    "Parking","ParkingComment","CafeWalkDistance","CafeWalkDistanceComment",
+    "DeskRequirement","DeskRequirementComment","DeskDimension","DeskDimensionComment",
+    "ErgonomicChair","ErgonomicChairComment","MeetingRoomTypes","MeetingRoomComment",
+    "QuietRoom","QuietRoomComment","Internet","InternetComment","Pantry","PantryComment",
+    "PrintScan","PrintScanComment","ParcelService","ParcelServiceComment","AVSystem","AVSystemComment"
+  ];
+
+  const headerMatch = expectedHeaders.every((h, i) => headers[i] === h);
+
+  if (!headerMatch) {
+    alert("Invalid CSV format. Please use the Export CSV template from this tool.");
+    event.target.value = "";
+    return;
+  }
+
+  let imported = 0;
+  let skipped = 0;
+
+  for (let i = 1; i < lines.length; i++) {
+    const values = parseCsvRow(lines[i]);
+
+    if (values.length < headers.length) {
+      skipped++;
+      continue;
+    }
+
+    const rec = {
+      deptName: values[0],
+      managerName: values[1],
+      empCount: Number(values[2]) || 0,
+      workingModel: values[3],
+      workingModelComment: values[4],
+      preferredLocation: values[5],
+      preferredLocationComment: values[6],
+      publicTransport: values[7],
+      publicTransportComment: values[8],
+      parking: values[9],
+      parkingComment: values[10],
+      cafeWalkDistance: values[11],
+      cafeWalkDistanceComment: values[12],
+      deskRequirement: values[13],
+      deskRequirementComment: values[14],
+      deskDimension: values[15],
+      deskDimensionComment: values[16],
+      ergonomicChair: values[17],
+      ergonomicChairComment: values[18],
+      meetingRooms: values[19],
+      meetingRoomsComment: values[20],
+      quietRoom: values[21],
+      quietRoomComment: values[22],
+      internet: values[23],
+      internetComment: values[24],
+      pantry: values[25],
+      pantryComment: values[26],
+      printScan: values[27],
+      printScanComment: values[28],
+      parcelService: values[29],
+      parcelServiceComment: values[30],
+      avSystem: values[31],
+      avSystemComment: values[32]
+    };
+
+    const duplicate = records.some(r =>
+      r.deptName === rec.deptName &&
+      r.workingModel === rec.workingModel
+    );
+
+    if (duplicate) {
+      skipped++;
+      continue;
+    }
+
+    records.push(rec);
+    imported++;
+  }
+
+  localStorage.setItem("workplaceSurveyOriginal", JSON.stringify(records));
+  refreshTable();
+  drawActiveChart();
+
+  alert(`Import complete.\nNew entries added: ${imported}\nSkipped duplicates/invalid rows: ${skipped}`);
+  event.target.value = "";
+}
+
+function wipeAll() {
+  if (confirm("Clear all saved records?")) {
+    records = [];
+    localStorage.removeItem("workplaceSurveyOriginal");
+    refreshTable();
+    drawActiveChart();
+    resetForm();
+  }
+}
+
+document.getElementById("chartSelector").addEventListener("change", drawActiveChart);
+
+refreshTable();
+drawActiveChart();
+</script>
+
+</body>
+</html>
